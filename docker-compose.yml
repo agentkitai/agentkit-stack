@@ -16,6 +16,8 @@ services:
       - LORE_MODE=remote
       - LORE_API_URL=http://lore:8765
       - LORE_API_KEY=lore_sk_a01079a5b4b6c6f194b6419a69ff92dd
+      - MESH_ENABLED=true
+      - MESH_URL=http://mesh:8766
     volumes:
       - agentlens-data:/app/data
     networks:
