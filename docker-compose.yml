@@ -10,6 +10,7 @@ services:
       - PORT=3000
       - NODE_ENV=production
       - AUTH_DISABLED=true
+      - DB_PATH=/app/data/agentlens.db
       - AGENTGATE_URL=http://agentgate:3002
       - LORE_ENABLED=true
       - LORE_MODE=remote
