@@ -12,7 +12,9 @@ services:
       - AUTH_DISABLED=true
       - AGENTGATE_URL=http://agentgate:3002
       - LORE_ENABLED=true
-      - LORE_URL=http://lore:8765
+      - LORE_MODE=remote
+      - LORE_API_URL=http://lore:8765
+      - LORE_API_KEY=agentkit-local-dev-lore-key
     volumes:
       - agentlens-data:/app/data
     networks:
