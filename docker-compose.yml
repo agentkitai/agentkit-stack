@@ -103,11 +103,37 @@ services:
         limits:
           memory: 128M
 
+  mesh:
+    build:
+      context: ../agentkit-mesh
+      dockerfile: Dockerfile
+    container_name: mesh
+    ports:
+      - "8766:8766"
+    environment:
+      - DB_PATH=/app/data/mesh.db
+      - NODE_ENV=production
+    volumes:
+      - mesh-data:/app/data
+    networks:
+      - agentkit
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8766/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+
 volumes:
   agentlens-data:
   agentgate-data:
   lore-data:
   lore-db-data:
+  mesh-data:
 
 networks:
   agentkit:
