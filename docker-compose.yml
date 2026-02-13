@@ -11,6 +11,8 @@ services:
       - NODE_ENV=production
       - AUTH_DISABLED=true
       - AGENTGATE_URL=http://agentgate:3002
+      - LORE_ENABLED=true
+      - LORE_URL=http://lore:8765
     volumes:
       - agentlens-data:/app/data
     networks:
@@ -45,9 +47,29 @@ services:
         limits:
           memory: 256M
 
+  lore:
+    build:
+      context: ../lore
+      dockerfile: Dockerfile.server
+    container_name: lore
+    ports:
+      - "8765:8765"
+    environment:
+      - LORE_DB_URL=sqlite:///app/data/lore.db
+    volumes:
+      - lore-data:/app/data
+    networks:
+      - agentkit
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+
 volumes:
   agentlens-data:
   agentgate-data:
+  lore-data:
 
 networks:
   agentkit:
