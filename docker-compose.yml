@@ -31,6 +31,9 @@ services:
     environment:
       - PORT=3002
       - NODE_ENV=production
+      - LOG_FORMAT=json
+      - ADMIN_API_KEY=agentkit-local-dev-key-1234
+      - JWT_SECRET=agentkit-local-dev-jwt-secret-1234567890abcdef
       - AGENTLENS_URL=http://agentlens:3000
     volumes:
       - agentgate-data:/app/data
