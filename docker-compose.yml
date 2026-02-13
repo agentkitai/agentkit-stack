@@ -14,12 +14,15 @@ services:
       - LORE_ENABLED=true
       - LORE_MODE=remote
       - LORE_API_URL=http://lore:8765
-      - LORE_API_KEY=agentkit-local-dev-lore-key
+      - LORE_API_KEY=lore_sk_a01079a5b4b6c6f194b6419a69ff92dd
     volumes:
       - agentlens-data:/app/data
     networks:
       - agentkit
     restart: unless-stopped
+    depends_on:
+      lore:
+        condition: service_healthy
     deploy:
       resources:
         limits:
@@ -57,21 +60,53 @@ services:
     ports:
       - "8765:8765"
     environment:
-      - LORE_DB_URL=sqlite:///app/data/lore.db
+      - DATABASE_URL=postgresql://lore:lore@lore-db:5432/lore
     volumes:
       - lore-data:/app/data
     networks:
       - agentkit
     restart: unless-stopped
+    depends_on:
+      lore-db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8765/health')\""]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
     deploy:
       resources:
         limits:
           memory: 256M
 
+  lore-db:
+    image: pgvector/pgvector:pg16
+    container_name: lore-db
+    environment:
+      - POSTGRES_USER=lore
+      - POSTGRES_PASSWORD=lore
+      - POSTGRES_DB=lore
+    volumes:
+      - lore-db-data:/var/lib/postgresql/data
+    networks:
+      - agentkit
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lore"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+
 volumes:
   agentlens-data:
   agentgate-data:
   lore-data:
+  lore-db-data:
 
 networks:
   agentkit:
