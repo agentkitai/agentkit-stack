@@ -1,0 +1,51 @@
+services:
+  agentlens:
+    build:
+      context: ../agentlens
+      dockerfile: Dockerfile
+    container_name: agentlens
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+      - AUTH_DISABLED=true
+      - AGENTGATE_URL=http://agentgate:3002
+    volumes:
+      - agentlens-data:/app/data
+    networks:
+      - agentkit
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+
+  agentgate:
+    build:
+      context: ../agentgate
+      dockerfile: Dockerfile
+    container_name: agentgate
+    ports:
+      - "3002:3002"
+    environment:
+      - PORT=3002
+      - NODE_ENV=production
+      - AGENTLENS_URL=http://agentlens:3000
+    volumes:
+      - agentgate-data:/app/data
+    networks:
+      - agentkit
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+
+volumes:
+  agentlens-data:
+  agentgate-data:
+
+networks:
+  agentkit:
+    driver: bridge
