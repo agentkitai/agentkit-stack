@@ -1,9 +1,9 @@
 services:
   agentlens:
-    # image: pazgaz/agentlens:latest  # uncomment for Docker Hub, comment build:
-    build:
-      context: ../agentlens
-      dockerfile: Dockerfile
+    image: pazgaz/agentlens:latest
+    # build:
+    #   context: ../agentlens
+    #   dockerfile: Dockerfile
     container_name: agentlens
     ports:
       - "3000:3000"
@@ -58,9 +58,10 @@ services:
           memory: 256M
 
   lore:
-    build:
-      context: ../lore
-      dockerfile: Dockerfile.server
+    image: pazgaz/lore:latest
+    # build:
+    #   context: ../lore
+    #   dockerfile: Dockerfile.server
     container_name: lore
     ports:
       - "8765:8765"
@@ -108,9 +109,10 @@ services:
           memory: 128M
 
   mesh:
-    build:
-      context: ../agentkit-mesh
-      dockerfile: Dockerfile
+    image: pazgaz/agentkit-mesh:latest
+    # build:
+    #   context: ../agentkit-mesh
+    #   dockerfile: Dockerfile
     container_name: mesh
     ports:
       - "8766:8766"
