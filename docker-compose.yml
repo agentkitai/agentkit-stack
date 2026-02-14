@@ -1,9 +1,9 @@
 services:
   agentlens:
-    image: pazgaz/agentlens:latest
-    # build:
-    #   context: ../agentlens
-    #   dockerfile: Dockerfile
+    # image: pazgaz/agentlens:latest  # uncomment for Docker Hub, comment build:
+    build:
+      context: ../agentlens
+      dockerfile: Dockerfile
     container_name: agentlens
     ports:
       - "3000:3000"
