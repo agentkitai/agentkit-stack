@@ -1,8 +1,9 @@
 services:
   agentlens:
-    build:
-      context: ../agentlens
-      dockerfile: Dockerfile
+    image: pazgaz/agentlens:latest
+    # build:
+    #   context: ../agentlens
+    #   dockerfile: Dockerfile
     container_name: agentlens
     ports:
       - "3000:3000"
@@ -32,9 +33,10 @@ services:
           memory: 256M
 
   agentgate:
-    build:
-      context: ../agentgate
-      dockerfile: Dockerfile
+    image: pazgaz/agentgate:latest
+    # build:
+    #   context: ../agentgate
+    #   dockerfile: Dockerfile
     container_name: agentgate
     ports:
       - "3002:3002"
