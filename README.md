@@ -1,6 +1,27 @@
-# AgentKit Stack — Docker Compose
+<p align="center">
+  <h1 align="center">🚀 AgentKit Stack</h1>
+  <p align="center">
+    <strong>Run the full AgentKit ecosystem with a single command</strong><br>
+    Docker Compose setup for AgentLens, AgentGate, Lore, and Mesh.
+  </p>
+  <p align="center">
+    <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
+    <a href="https://hub.docker.com/r/pazgaz/agentlens"><img src="https://img.shields.io/docker/v/pazgaz/agentlens?label=agentlens" alt="AgentLens Docker"></a>
+    <a href="https://hub.docker.com/r/pazgaz/agentgate"><img src="https://img.shields.io/docker/v/pazgaz/agentgate?label=agentgate" alt="AgentGate Docker"></a>
+  </p>
+</p>
 
-Run the full AgentKit ecosystem with a single `docker compose up`.
+---
+
+## Quick Start
+
+```bash
+git clone https://github.com/agentkitai/agentkit-stack.git
+cd agentkit-stack
+docker compose up -d
+```
+
+AgentLens and AgentGate pull from Docker Hub; Lore and Mesh build locally.
 
 ## Services
 
@@ -11,16 +32,6 @@ Run the full AgentKit ecosystem with a single `docker compose up`.
 | Lore       | 8765 | *(built from source)* | Semantic memory (pgvector) |
 | Lore DB    | —    | `pgvector/pgvector:pg16` | PostgreSQL + pgvector |
 | Mesh       | 8766 | *(built from source)* | Agent discovery registry |
-
-## Quick Start
-
-```bash
-git clone https://github.com/agentkitai/agentkit-stack.git
-cd agentkit-stack
-docker compose up -d
-```
-
-That's it. AgentLens and AgentGate pull from Docker Hub; Lore and Mesh build locally.
 
 ## Docker Hub Images
 
@@ -52,3 +63,25 @@ docker compose up -d --build
 docker compose down           # stop containers
 docker compose down -v        # stop + remove volumes (data loss!)
 ```
+
+## 🤝 Contributing
+
+Contributions are welcome! Fork the repo, make your changes, and open a pull request. For major changes, open an issue first to discuss what you'd like to change.
+
+## 🧰 AgentKit Ecosystem
+
+| Project | Description | |
+|---------|-------------|-|
+| [AgentLens](https://github.com/agentkitai/agentlens) | Observability & audit trail for AI agents | |
+| [Lore](https://github.com/agentkitai/lore) | Cross-agent memory and lesson sharing | |
+| [AgentGate](https://github.com/agentkitai/agentgate) | Human-in-the-loop approval gateway | |
+| [FormBridge](https://github.com/agentkitai/formbridge) | Agent-human mixed-mode forms | |
+| [AgentEval](https://github.com/agentkitai/agenteval) | Testing & evaluation framework | |
+| [agentkit-mesh](https://github.com/agentkitai/agentkit-mesh) | Agent discovery & delegation | |
+| [agentkit-cli](https://github.com/agentkitai/agentkit-cli) | Unified CLI orchestrator | |
+| [agentkit-guardrails](https://github.com/agentkitai/agentkit-guardrails) | Reactive policy guardrails | |
+| **agentkit-stack** | Full-stack Docker Compose setup | ⬅️ you are here |
+
+## License
+
+[MIT](LICENSE) © [Amit Paz](https://github.com/amitpaz)
