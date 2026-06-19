@@ -1,6 +1,6 @@
 services:
   agentlens:
-    image: pazgaz/agentlens:latest
+    image: pazgaz/agentlens:0.12.2
     # build:
     #   context: ../agentlens
     #   dockerfile: Dockerfile
@@ -16,7 +16,7 @@ services:
       - LORE_ENABLED=true
       - LORE_MODE=remote
       - LORE_API_URL=http://lore:8765
-      - LORE_API_KEY=lore_sk_a01079a5b4b6c6f194b6419a69ff92dd
+      - LORE_API_KEY=${LORE_API_KEY:?set LORE_API_KEY in .env (copy from .env.example)}
       - MESH_ENABLED=true
       - MESH_URL=http://mesh:8766
     volumes:
@@ -27,13 +27,17 @@ services:
     depends_on:
       lore:
         condition: service_healthy
+      agentgate:
+        condition: service_healthy
+      mesh:
+        condition: service_healthy
     deploy:
       resources:
         limits:
           memory: 256M
 
   agentgate:
-    image: pazgaz/agentgate:latest
+    image: pazgaz/agentgate:0.12.1
     # build:
     #   context: ../agentgate
     #   dockerfile: Dockerfile
@@ -44,21 +48,28 @@ services:
       - PORT=3002
       - NODE_ENV=production
       - LOG_FORMAT=json
-      - ADMIN_API_KEY=agentkit-local-dev-key-1234
-      - JWT_SECRET=agentkit-local-dev-jwt-secret-1234567890abcdef
+      - ADMIN_API_KEY=${ADMIN_API_KEY:?set ADMIN_API_KEY in .env (copy from .env.example)}
+      - JWT_SECRET=${JWT_SECRET:?set JWT_SECRET in .env (copy from .env.example)}
       - AGENTLENS_URL=http://agentlens:3000
     volumes:
       - agentgate-data:/app/data
     networks:
       - agentkit
     restart: unless-stopped
+    healthcheck:
+      # node-based probe: the agentgate image (node:22-alpine) has no curl
+      test: ["CMD-SHELL", "node -e \"require('http').get('http://localhost:3002/health',r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))\""]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
     deploy:
       resources:
         limits:
           memory: 256M
 
   lore:
-    image: pazgaz/lore:latest
+    image: pazgaz/lore:1.1.1
     # build:
     #   context: ../lore
     #   dockerfile: Dockerfile.server
@@ -109,7 +120,7 @@ services:
           memory: 128M
 
   mesh:
-    image: pazgaz/agentkit-mesh:latest
+    image: pazgaz/agentkit-mesh:1.3.0
     # build:
     #   context: ../agentkit-mesh
     #   dockerfile: Dockerfile

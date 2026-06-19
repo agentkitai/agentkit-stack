@@ -18,26 +18,31 @@
 ```bash
 git clone https://github.com/agentkitai/agentkit-stack.git
 cd agentkit-stack
+cp .env.example .env   # then edit .env and set real secrets
 docker compose up -d
 ```
 
-AgentLens and AgentGate pull from Docker Hub; Lore and Mesh build locally.
+All four services pull pinned images from Docker Hub. Secrets are read from
+`.env` (gitignored); `docker compose up` will refuse to start until the
+required keys in `.env` are set.
 
 ## Services
 
 | Service    | Port | Image | Description |
 |------------|------|-------|-------------|
-| AgentLens  | 3000 | [`pazgaz/agentlens`](https://hub.docker.com/r/pazgaz/agentlens) | Observability dashboard |
-| AgentGate  | 3002 | [`pazgaz/agentgate`](https://hub.docker.com/r/pazgaz/agentgate) | Approval gateway |
-| Lore       | 8765 | *(built from source)* | Semantic memory (pgvector) |
+| AgentLens  | 3000 | [`pazgaz/agentlens:0.12.2`](https://hub.docker.com/r/pazgaz/agentlens) | Observability dashboard |
+| AgentGate  | 3002 | [`pazgaz/agentgate:0.12.1`](https://hub.docker.com/r/pazgaz/agentgate) | Approval gateway |
+| Lore       | 8765 | [`pazgaz/lore:1.1.1`](https://hub.docker.com/r/pazgaz/lore) | Semantic memory (pgvector) |
 | Lore DB    | —    | `pgvector/pgvector:pg16` | PostgreSQL + pgvector |
-| Mesh       | 8766 | *(built from source)* | Agent discovery registry |
+| Mesh       | 8766 | [`pazgaz/agentkit-mesh:1.3.0`](https://hub.docker.com/r/pazgaz/agentkit-mesh) | Agent discovery registry |
 
 ## Docker Hub Images
 
 ```bash
-docker pull pazgaz/agentlens        # ~1GB (dashboard + server)
-docker pull pazgaz/agentgate        # ~241MB (approval gateway)
+docker pull pazgaz/agentlens:0.12.2      # dashboard + server
+docker pull pazgaz/agentgate:0.12.1      # approval gateway
+docker pull pazgaz/lore:1.1.1            # semantic memory
+docker pull pazgaz/agentkit-mesh:1.3.0   # agent discovery registry
 ```
 
 ## Health Checks
@@ -51,7 +56,10 @@ curl http://localhost:8766/health                 # Mesh
 
 ## Rebuild from Source
 
-To build AgentLens/AgentGate locally instead of pulling from Docker Hub, uncomment the `build:` lines in `docker-compose.yml` and remove the `image:` lines, then:
+By default every service pulls a pinned image from Docker Hub. To build any of
+them from a local checkout instead, uncomment that service's `build:` lines in
+`docker-compose.yml` (each expects the sibling repo checked out alongside this
+one), then:
 
 ```bash
 docker compose up -d --build
