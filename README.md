@@ -26,6 +26,25 @@ All four services pull pinned images from Docker Hub. Secrets are read from
 `.env` (gitignored); `docker compose up` will refuse to start until the
 required keys in `.env` are set.
 
+## Profiles
+
+Run only the slice you need with [Compose profiles](https://docs.docker.com/compose/profiles/):
+
+| Profile      | Services                                   | For |
+|--------------|--------------------------------------------|-----|
+| `minimal`    | AgentLens, Lore (+ Lore DB)                | Observability + memory |
+| `governance` | `minimal` + AgentGate                      | Compliance: approval gateway / guardrails |
+| `full`       | `governance` + Mesh                        | Everything (the default) |
+
+```bash
+docker compose --profile minimal up -d      # leanest
+docker compose --profile governance up -d   # + approval gateway
+docker compose up -d                         # full (COMPOSE_PROFILES=full in .env)
+```
+
+The default `docker compose up` activates `full` via `COMPOSE_PROFILES` in
+`.env` — set it to `minimal` or `governance` there to change the default.
+
 ## Services
 
 | Service    | Port | Image | Description |
