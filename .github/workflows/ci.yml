@@ -19,22 +19,20 @@ jobs:
       - name: Validate compose config
         run: docker compose config -q
 
-      # #96 changed the registry, so prove every minimal image resolves + pulls
-      # from ghcr.io/agentkitai/* (the migration). agentgate + mesh aren't
-      # published yet (mesh is archived → needs a one-time GHCR mirror).
-      - name: Pull minimal images from GHCR (validates the #96 migration)
-        run: docker compose --profile minimal pull
+      # Bring up the full governance profile (agentlens + agentgate + lore +
+      # lore-db) from the ghcr.io/agentkitai/* images and wait for every
+      # healthcheck. (agentlens now boots healthy after the JWT_SECRET +
+      # health-probe-port alignment.)
+      - name: Bring up the governance stack (wait for healthchecks)
+        run: docker compose --profile governance up -d --wait --wait-timeout 240
 
-      # Bring up lore + its DB and verify health from the ghcr image. NOTE:
-      # agentlens:latest is a newer major than this compose's env was written for
-      # (it was pinned to 0.12.2) and reports unhealthy — aligning the compose
-      # to current service majors is tracked separately, not part of #96.
-      - name: Bring up lore + verify health
+      - name: Poll documented health endpoints
         run: |
           set -e
-          docker compose up -d --wait --wait-timeout 180 lore
-          curl -fsS http://localhost:8765/health > /dev/null
-          echo "lore healthy from ghcr.io/agentkitai/lore."
+          curl -fsS http://localhost:3000/api/stats   > /dev/null  # AgentLens
+          curl -fsS http://localhost:3002/health      > /dev/null  # AgentGate
+          curl -fsS http://localhost:8765/health      > /dev/null  # Lore
+          echo "governance stack healthy (agentlens + agentgate + lore)."
 
       - name: Dump logs on failure
         if: failure()
