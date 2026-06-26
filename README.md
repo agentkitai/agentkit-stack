@@ -2,7 +2,7 @@
   <h1 align="center">🚀 AgentKit Stack</h1>
   <p align="center">
     <strong>Run the full AgentKit ecosystem with a single command</strong><br>
-    Docker Compose setup for AgentLens, AgentGate, Lore, and Mesh.
+    Docker Compose setup for AgentLens, AgentGate, and Lore.
   </p>
   <p align="center">
     <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
@@ -43,7 +43,7 @@ Run only the slice you need with [Compose profiles](https://docs.docker.com/comp
 |--------------|--------------------------------------------|-----|
 | `minimal`    | AgentLens, Lore (+ Lore DB)                | Observability + memory |
 | `governance` | `minimal` + AgentGate                      | Compliance: approval gateway / guardrails |
-| `full`       | `governance` + Mesh                        | Everything (the default) |
+| `full`       | alias of `governance`                      | Everything (the default) |
 
 ```bash
 docker compose --profile minimal up -d      # leanest
@@ -62,7 +62,6 @@ The default `docker compose up` activates `full` via `COMPOSE_PROFILES` in
 | AgentGate  | 3002 | [`ghcr.io/agentkitai/agentgate:latest`](https://github.com/orgs/agentkitai/packages/container/package/agentgate) | Approval gateway |
 | Lore       | 8765 | [`ghcr.io/agentkitai/lore:latest`](https://github.com/orgs/agentkitai/packages/container/package/lore) | Semantic memory (pgvector) |
 | Lore DB    | —    | `pgvector/pgvector:pg16` | PostgreSQL + pgvector |
-| Mesh       | 8766 | [`ghcr.io/agentkitai/agentkit-mesh:latest`](https://github.com/orgs/agentkitai/packages/container/package/agentkit-mesh) | Agent discovery registry |
 
 ## Images (GHCR)
 
@@ -70,7 +69,6 @@ The default `docker compose up` activates `full` via `COMPOSE_PROFILES` in
 docker pull ghcr.io/agentkitai/agentlens:latest      # dashboard + server
 docker pull ghcr.io/agentkitai/agentgate:latest      # approval gateway
 docker pull ghcr.io/agentkitai/lore:latest            # semantic memory
-docker pull ghcr.io/agentkitai/agentkit-mesh:latest   # agent discovery registry
 ```
 
 ## Health Checks
@@ -79,7 +77,6 @@ docker pull ghcr.io/agentkitai/agentkit-mesh:latest   # agent discovery registry
 curl http://localhost:3000/api/health/overview   # AgentLens
 curl http://localhost:3002/health                 # AgentGate
 curl http://localhost:8765/health                 # Lore
-curl http://localhost:8766/health                 # Mesh
 ```
 
 ## Rebuild from Source

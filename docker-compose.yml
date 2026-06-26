@@ -6,8 +6,8 @@ services:
     #   dockerfile: Dockerfile
     container_name: agentlens
     # Profiles (#6): minimal = observability + memory; governance adds the
-    # approval gateway; full adds the mesh. Select with COMPOSE_PROFILES (.env)
-    # or `docker compose --profile <name> up`.
+    # approval gateway. `full` is kept as an alias of governance. Select with
+    # COMPOSE_PROFILES (.env) or `docker compose --profile <name> up`.
     profiles: ["minimal", "governance", "full"]
     ports:
       - "3000:3000"
@@ -21,16 +21,14 @@ services:
       - LORE_MODE=remote
       - LORE_API_URL=http://lore:8765
       - LORE_API_KEY=${LORE_API_KEY:?set LORE_API_KEY in .env (copy from .env.example)}
-      - MESH_ENABLED=true
-      - MESH_URL=http://mesh:8766
     volumes:
       - agentlens-data:/app/data
     networks:
       - agentkit
     restart: unless-stopped
-    # Hard-depend only on lore (present in every profile); agentgate + mesh are
-    # reached via their runtime URLs (best-effort), so the leaner profiles don't
-    # have to pull them in. They still come up first in governance/full.
+    # Hard-depend only on lore (present in every profile); agentgate is reached
+    # via its runtime URL (best-effort), so the minimal profile doesn't have to
+    # pull it in. It still comes up first in governance.
     depends_on:
       lore:
         condition: service_healthy
@@ -125,39 +123,11 @@ services:
         limits:
           memory: 128M
 
-  mesh:
-    image: ghcr.io/agentkitai/agentkit-mesh:latest
-    # build:
-    #   context: ../agentkit-mesh
-    #   dockerfile: Dockerfile
-    container_name: mesh
-    profiles: ["full"]  # cross-agent mesh — full stack only
-    ports:
-      - "8766:8766"
-    environment:
-      - DB_PATH=/app/data/mesh.db
-      - NODE_ENV=production
-    volumes:
-      - mesh-data:/app/data
-    networks:
-      - agentkit
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8766/health"]
-      interval: 10s
-      timeout: 3s
-      retries: 3
-    deploy:
-      resources:
-        limits:
-          memory: 128M
-
 volumes:
   agentlens-data:
   agentgate-data:
   lore-data:
   lore-db-data:
-  mesh-data:
 
 networks:
   agentkit:
