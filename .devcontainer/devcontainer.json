@@ -1,0 +1,20 @@
+{
+  "name": "AgentKit Stack",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+  "postCreateCommand": "cp -n .env.example .env || true",
+  "forwardPorts": [3000, 3002, 8765, 8766],
+  "portsAttributes": {
+    "3000": { "label": "AgentLens" },
+    "3002": { "label": "AgentGate" },
+    "8765": { "label": "Lore" },
+    "8766": { "label": "Mesh" }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": ["ms-azuretools.vscode-docker"]
+    }
+  }
+}
