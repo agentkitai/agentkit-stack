@@ -5,6 +5,10 @@ services:
     #   context: ../agentlens
     #   dockerfile: Dockerfile
     container_name: agentlens
+    # Profiles (#6): minimal = observability + memory; governance adds the
+    # approval gateway; full adds the mesh. Select with COMPOSE_PROFILES (.env)
+    # or `docker compose --profile <name> up`.
+    profiles: ["minimal", "governance", "full"]
     ports:
       - "3000:3000"
     environment:
@@ -24,12 +28,11 @@ services:
     networks:
       - agentkit
     restart: unless-stopped
+    # Hard-depend only on lore (present in every profile); agentgate + mesh are
+    # reached via their runtime URLs (best-effort), so the leaner profiles don't
+    # have to pull them in. They still come up first in governance/full.
     depends_on:
       lore:
-        condition: service_healthy
-      agentgate:
-        condition: service_healthy
-      mesh:
         condition: service_healthy
     deploy:
       resources:
@@ -42,6 +45,7 @@ services:
     #   context: ../agentgate
     #   dockerfile: Dockerfile
     container_name: agentgate
+    profiles: ["governance", "full"]  # the approval gateway — not in minimal
     ports:
       - "3002:3002"
     environment:
@@ -74,6 +78,7 @@ services:
     #   context: ../lore
     #   dockerfile: Dockerfile.server
     container_name: lore
+    profiles: ["minimal", "governance", "full"]  # memory — in every profile
     ports:
       - "8765:8765"
     environment:
@@ -100,6 +105,7 @@ services:
   lore-db:
     image: pgvector/pgvector:pg16
     container_name: lore-db
+    profiles: ["minimal", "governance", "full"]  # lore's datastore
     environment:
       - POSTGRES_USER=lore
       - POSTGRES_PASSWORD=lore
@@ -125,6 +131,7 @@ services:
     #   context: ../agentkit-mesh
     #   dockerfile: Dockerfile
     container_name: mesh
+    profiles: ["full"]  # cross-agent mesh — full stack only
     ports:
       - "8766:8766"
     environment:
