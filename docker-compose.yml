@@ -16,6 +16,9 @@ services:
       - NODE_ENV=production
       - AUTH_DISABLED=true
       - DB_PATH=/app/data/agentlens.db
+      # JWT_SECRET is REQUIRED by current AgentLens (fatal at boot if unset,
+      # even with AUTH_DISABLED). Reuses the stack's shared dev secret.
+      - JWT_SECRET=${JWT_SECRET:?set JWT_SECRET in .env (copy from .env.example)}
       - AGENTGATE_URL=http://agentgate:3002
       - LORE_ENABLED=true
       - LORE_MODE=remote
@@ -26,6 +29,15 @@ services:
     networks:
       - agentkit
     restart: unless-stopped
+    # The image's built-in HEALTHCHECK probes port 3400 (its default PORT), but
+    # we run it on 3000 — so override it to probe the real port. (node base image,
+    # no curl/wget.)
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"fetch('http://localhost:3000/api/stats').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\""]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
     # Hard-depend only on lore (present in every profile); agentgate is reached
     # via its runtime URL (best-effort), so the minimal profile doesn't have to
     # pull it in. It still comes up first in governance.
