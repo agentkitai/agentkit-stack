@@ -19,17 +19,20 @@ jobs:
       - name: Validate compose config
         run: docker compose config -q
 
-      - name: Bring the stack up (wait for healthchecks)
-        run: docker compose up -d --wait --wait-timeout 180
+      # Smoke-test the `minimal` profile: agentlens + lore (+ lore-db), both
+      # already public on GHCR. The full profile (agentgate + mesh) can't be
+      # pulled until those images are published; agentkit-mesh is archived and
+      # needs a one-time GHCR mirror. Widen this back to `up --wait` once all
+      # four images are public on ghcr.io/agentkitai/*.
+      - name: Bring the minimal stack up (wait for healthchecks)
+        run: docker compose --profile minimal up -d --wait --wait-timeout 180
 
       - name: Poll documented health endpoints
         run: |
           set -e
           curl -fsS http://localhost:3000/api/health/overview > /dev/null
-          curl -fsS http://localhost:3002/health             > /dev/null
           curl -fsS http://localhost:8765/health             > /dev/null
-          curl -fsS http://localhost:8766/health             > /dev/null
-          echo "All four services healthy."
+          echo "minimal profile healthy (agentlens + lore)."
 
       - name: Dump logs on failure
         if: failure()
