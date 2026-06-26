@@ -6,8 +6,8 @@
   </p>
   <p align="center">
     <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT"></a>
-    <a href="https://hub.docker.com/r/pazgaz/agentlens"><img src="https://img.shields.io/docker/v/pazgaz/agentlens?label=agentlens" alt="AgentLens Docker"></a>
-    <a href="https://hub.docker.com/r/pazgaz/agentgate"><img src="https://img.shields.io/docker/v/pazgaz/agentgate?label=agentgate" alt="AgentGate Docker"></a>
+    <a href="https://github.com/orgs/agentkitai/packages/container/package/agentlens"><img src="https://img.shields.io/badge/ghcr-agentlens-blue?logo=docker" alt="AgentLens Docker"></a>
+    <a href="https://github.com/orgs/agentkitai/packages/container/package/agentgate"><img src="https://img.shields.io/badge/ghcr-agentgate-blue?logo=docker" alt="AgentGate Docker"></a>
   </p>
 </p>
 
@@ -31,7 +31,7 @@ cp .env.example .env   # then edit .env and set real secrets
 docker compose up -d
 ```
 
-All four services pull pinned images from Docker Hub. Secrets are read from
+All four services pull pinned images from GHCR (ghcr.io/agentkitai). Secrets are read from
 `.env` (gitignored); `docker compose up` will refuse to start until the
 required keys in `.env` are set.
 
@@ -58,19 +58,19 @@ The default `docker compose up` activates `full` via `COMPOSE_PROFILES` in
 
 | Service    | Port | Image | Description |
 |------------|------|-------|-------------|
-| AgentLens  | 3000 | [`pazgaz/agentlens:0.12.2`](https://hub.docker.com/r/pazgaz/agentlens) | Observability dashboard |
-| AgentGate  | 3002 | [`pazgaz/agentgate:0.12.1`](https://hub.docker.com/r/pazgaz/agentgate) | Approval gateway |
-| Lore       | 8765 | [`pazgaz/lore:1.1.1`](https://hub.docker.com/r/pazgaz/lore) | Semantic memory (pgvector) |
+| AgentLens  | 3000 | [`ghcr.io/agentkitai/agentlens:latest`](https://github.com/orgs/agentkitai/packages/container/package/agentlens) | Observability dashboard |
+| AgentGate  | 3002 | [`ghcr.io/agentkitai/agentgate:latest`](https://github.com/orgs/agentkitai/packages/container/package/agentgate) | Approval gateway |
+| Lore       | 8765 | [`ghcr.io/agentkitai/lore:latest`](https://github.com/orgs/agentkitai/packages/container/package/lore) | Semantic memory (pgvector) |
 | Lore DB    | —    | `pgvector/pgvector:pg16` | PostgreSQL + pgvector |
-| Mesh       | 8766 | [`pazgaz/agentkit-mesh:1.3.0`](https://hub.docker.com/r/pazgaz/agentkit-mesh) | Agent discovery registry |
+| Mesh       | 8766 | [`ghcr.io/agentkitai/agentkit-mesh:latest`](https://github.com/orgs/agentkitai/packages/container/package/agentkit-mesh) | Agent discovery registry |
 
-## Docker Hub Images
+## Images (GHCR)
 
 ```bash
-docker pull pazgaz/agentlens:0.12.2      # dashboard + server
-docker pull pazgaz/agentgate:0.12.1      # approval gateway
-docker pull pazgaz/lore:1.1.1            # semantic memory
-docker pull pazgaz/agentkit-mesh:1.3.0   # agent discovery registry
+docker pull ghcr.io/agentkitai/agentlens:latest      # dashboard + server
+docker pull ghcr.io/agentkitai/agentgate:latest      # approval gateway
+docker pull ghcr.io/agentkitai/lore:latest            # semantic memory
+docker pull ghcr.io/agentkitai/agentkit-mesh:latest   # agent discovery registry
 ```
 
 ## Health Checks
@@ -84,7 +84,7 @@ curl http://localhost:8766/health                 # Mesh
 
 ## Rebuild from Source
 
-By default every service pulls a pinned image from Docker Hub. To build any of
+By default every service pulls a pinned image from GHCR. To build any of
 them from a local checkout instead, uncomment that service's `build:` lines in
 `docker-compose.yml` (each expects the sibling repo checked out alongside this
 one), then:

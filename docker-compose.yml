@@ -1,6 +1,6 @@
 services:
   agentlens:
-    image: pazgaz/agentlens:0.12.2
+    image: ghcr.io/agentkitai/agentlens:latest
     # build:
     #   context: ../agentlens
     #   dockerfile: Dockerfile
@@ -40,7 +40,7 @@ services:
           memory: 256M
 
   agentgate:
-    image: pazgaz/agentgate:0.12.1
+    image: ghcr.io/agentkitai/agentgate:latest
     # build:
     #   context: ../agentgate
     #   dockerfile: Dockerfile
@@ -73,7 +73,7 @@ services:
           memory: 256M
 
   lore:
-    image: pazgaz/lore:1.1.1
+    image: ghcr.io/agentkitai/lore:latest
     # build:
     #   context: ../lore
     #   dockerfile: Dockerfile.server
@@ -126,7 +126,7 @@ services:
           memory: 128M
 
   mesh:
-    image: pazgaz/agentkit-mesh:1.3.0
+    image: ghcr.io/agentkitai/agentkit-mesh:latest
     # build:
     #   context: ../agentkit-mesh
     #   dockerfile: Dockerfile
