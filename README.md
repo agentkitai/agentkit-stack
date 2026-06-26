@@ -15,6 +15,15 @@
 
 ## Quick Start
 
+Zero local setup — open the whole stack in a cloud dev environment (a thin
+[devcontainer](.devcontainer/devcontainer.json) with Docker-in-Docker; it seeds
+`.env` for you, then just `docker compose up -d`):
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/agentkitai/agentkit-stack)
+[![Open in Dev Containers](https://img.shields.io/static/v1?label=Dev%20Containers&message=Open&color=blue&logo=visualstudiocode)](https://vscode.dev/redirect?url=vscode%3A%2F%2Fms-vscode-remote.remote-containers%2FcloneInVolume%3Furl%3Dhttps%3A%2F%2Fgithub.com%2Fagentkitai%2Fagentkit-stack)
+
+Or locally:
+
 ```bash
 git clone https://github.com/agentkitai/agentkit-stack.git
 cd agentkit-stack
