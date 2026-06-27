@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>agentkit-guardrails — AgentKitAI</title><link rel="stylesheet" href="styles.css">
+</head><body>
+<header class="masthead"><a class="brand" href="index.html">⬡ <b>AgentKitAI</b></a>
+<span class="brand-sub">open-source control plane for AI agents</span></header>
+<nav class="topnav"><a href="index.html">Overview</a><a href="agentlens.html">🔍 AgentLens</a><a href="agentgate.html">🛂 AgentGate</a><a href="lore.html">🧠 Lore</a><a href="formbridge.html">📝 FormBridge</a><a href="agenteval.html">✅ AgentEval</a><a href="agentkit-guardrails.html" class="active">🚦 agentkit-guardrails</a><a href="agentkit-cli.html">🔧 agentkit-cli</a><a href="agentkit-stack.html">📦 agentkit-stack</a></nav>
+<main>
+<a class="back" href="index.html">← All products</a>
+<header class="phead tier-support">
+  <h1><span class="emoji-lg">🚦</span> agentkit-guardrails</h1>
+  <p class="tag">Reactive policy automation: tightens AgentGate policies when AgentLens metrics breach thresholds.</p>
+  <div class="card-meta"><span class="badge ">Tooling</span><span class="badge ">Reactive policy loop</span><span class="badge lang">TypeScript</span><span class="badge ver">v1.0.0</span><span class="badge status">Focused · 1.0</span></div>
+  <div class="links"><a class="lnk" href="https://github.com/agentkitai/agentkit-guardrails">GitHub ↗</a><a class="lnk" href="https://www.npmjs.com/package/agentkit-guardrails">npm ↗</a></div>
+</header>
+<section><h2>Purpose</h2><p>Provides automatic guardrails by monitoring AgentLens metrics and reactively creating AgentGate policy overrides when error rates, latency, or other metrics exceed thresholds — then removing them when metrics recover. Delivers reactive, policy-driven incident response with no manual intervention.</p></section>
+<section><h2>Architecture</h2><p>A single-process webhook receiver and policy orchestrator. AgentLens POSTs breach/recovery events to /webhook; the service looks up matching YAML rules and calls the AgentGate REST API to create or remove policy overrides. It keeps an in-memory map of active overrides with local TTL timers as a safety net, and reconciles state from AgentGate on startup to avoid orphaned overrides after restarts. Webhook requests require a shared secret; AgentGate calls use optional bearer auth.</p></section>
+<section><h2>Key features</h2><ul class="features"><li>Webhook receiver (POST /webhook) for metric breach + recovery events</li><li>YAML rule config mapping metric names to enforcement actions</li><li>Three actions: require_approval (human-in-loop), deny (block tools), allow (whitelist)</li><li>Glob tool matching (e.g. external_api.*)</li><li>Dual-TTL safety net: in-memory timers + AgentGate-side TTL</li><li>Idempotent duplicate-event handling — no duplicate overrides</li><li>Startup reconciliation rebuilds override state from AgentGate (source of truth)</li><li>Fail-closed shared-secret webhook auth (rejects all if unset)</li><li>Health endpoint (GET /health); npx executable</li></ul></section>
+<section><h2>Interfaces</h2><ul class="ifaces"><li>POST /webhook (metric breach/recovery)</li><li>GET /health</li><li>AgentGate API: POST/DELETE/GET /api/overrides</li><li>CLI: agentkit-guardrails config.yaml (npx)</li><li>YAML config (rules, port, AgentGate URL + key)</li></ul></section>
+<section><h2>How it fits the suite</h2><p>The reactive loop that makes the suite self-tightening: it wires AgentLens (observe) to AgentGate (govern). When metrics degrade, permissions automatically tighten; when they recover, normal access is restored.</p></section>
+<section><h2>Notable engineering</h2><p>Three hardening fixes define it: a local-TTL safety net so stale overrides don&#x27;t block re-creation; startup reconciliation against AgentGate&#x27;s source of truth so restarts don&#x27;t orphan/duplicate; and fail-closed shared-secret webhook auth preventing unauthorized policy changes.</p></section>
+<section><h2>Stack</h2><p class="stack">TypeScript / Node.js · Fastify · Zod · YAML · Pino · Vitest</p></section>
+<nav class="prevnext"><a href="agenteval.html">← ✅ AgentEval</a><a href="agentkit-cli.html">🔧 agentkit-cli →</a></nav>
+</main>
+<footer>AgentKitAI · 8 products · MIT/ISC licensed · github.com/agentkitai</footer>
+</body></html>

@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AgentKitAI — Suite Overview</title><link rel="stylesheet" href="styles.css">
+</head><body>
+<header class="masthead"><a class="brand" href="index.html">⬡ <b>AgentKitAI</b></a>
+<span class="brand-sub">open-source control plane for AI agents</span></header>
+<nav class="topnav"><a href="index.html" class="active">Overview</a><a href="agentlens.html">🔍 AgentLens</a><a href="agentgate.html">🛂 AgentGate</a><a href="lore.html">🧠 Lore</a><a href="formbridge.html">📝 FormBridge</a><a href="agenteval.html">✅ AgentEval</a><a href="agentkit-guardrails.html">🚦 agentkit-guardrails</a><a href="agentkit-cli.html">🔧 agentkit-cli</a><a href="agentkit-stack.html">📦 agentkit-stack</a></nav>
+<main>
+<section class="hero">
+  <h1>The control plane for AI agents</h1>
+  <p class="lede">Frameworks help you <em>build</em> an agent. <b>AgentKitAI</b> is the layer around it in production —
+  <b>observe</b> what it did, <b>govern</b> what it's allowed to do, <b>remember</b> across sessions,
+  <b>collect human input</b> when it's stuck, and <b>evaluate</b> that it still works. The through-line across every
+  product is <b>provenance &amp; compliance</b>: tamper-evident audit, signed evidence, and EU&nbsp;AI&nbsp;Act / OWASP-LLM framing —
+  so an agent's behavior isn't just logged, it's cryptographically <em>defensible</em>.</p>
+  <p class="lede">Everything is MIT/ISC-licensed, self-hostable, and <b>MCP-native</b> — each service is also a Model Context
+  Protocol server, so Claude Desktop / Cursor / any MCP client can drive it. Distribution is unified under the
+  <code>@agentkitai/*</code> npm scope (PyPI for the Python services, <code>ghcr.io/agentkitai/*</code> for Docker,
+  <code>io.github.agentkitai/*</code> in the MCP Registry).</p>
+</section>
+
+<section><h2>How the pieces fit</h2>
+<svg class="diagram" viewBox="0 0 900 560" role="img" aria-label="How AgentKitAI fits together">
+  <defs>
+    <marker id="arr" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L7,3 L0,6 Z" class="dg-ah"/></marker>
+    <marker id="arr2" markerWidth="9" markerHeight="9" refX="6.5" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L7,3 L0,6 Z" class="dg-ah2"/></marker>
+  </defs>
+
+  <!-- agent source bar -->
+  <rect class="dg-agent" x="24" y="22" width="856" height="58" rx="12"/>
+  <text class="dg-t" x="452" y="47" text-anchor="middle">Your Agent</text>
+  <text class="dg-s" x="452" y="67" text-anchor="middle">any framework · OpenTelemetry · SDK · MCP</text>
+
+  <!-- agent → 4 services -->
+  <line class="dg-flow" x1="122" y1="80" x2="122" y2="137" marker-end="url(#arr)"/>
+  <line class="dg-flow" x1="342" y1="80" x2="342" y2="137" marker-end="url(#arr)"/>
+  <line class="dg-flow" x1="562" y1="80" x2="562" y2="137" marker-end="url(#arr)"/>
+  <line class="dg-flow" x1="782" y1="80" x2="782" y2="137" marker-end="url(#arr)"/>
+  <g><rect class="dg-chip" x="60" y="98" width="124" height="22" rx="11"/><text class="dg-chip-t" x="122" y="113" text-anchor="middle">telemetry</text></g>
+  <g><rect class="dg-chip" x="280" y="98" width="124" height="22" rx="11"/><text class="dg-chip-t" x="342" y="113" text-anchor="middle">"may I run X?"</text></g>
+  <g><rect class="dg-chip" x="500" y="98" width="124" height="22" rx="11"/><text class="dg-chip-t" x="562" y="113" text-anchor="middle">remember / recall</text></g>
+  <g><rect class="dg-chip" x="720" y="98" width="124" height="22" rx="11"/><text class="dg-chip-t" x="782" y="113" text-anchor="middle">human input</text></g>
+
+  <!-- service cards -->
+  <g><rect class="dg-box dg-core" x="24" y="138" width="196" height="112" rx="11"/>
+    <text class="dg-name" x="122" y="178" text-anchor="middle">🔍 AgentLens</text>
+    <text class="dg-s" x="122" y="202" text-anchor="middle">observe · hash-chained audit</text>
+    <text class="dg-s" x="122" y="220" text-anchor="middle">cost · session replay</text></g>
+  <g><rect class="dg-box dg-core" x="244" y="138" width="196" height="112" rx="11"/>
+    <text class="dg-name" x="342" y="178" text-anchor="middle">🛂 AgentGate</text>
+    <text class="dg-s" x="342" y="202" text-anchor="middle">approve / deny /</text>
+    <text class="dg-s" x="342" y="220" text-anchor="middle">route to human</text></g>
+  <g><rect class="dg-box dg-core" x="464" y="138" width="196" height="112" rx="11"/>
+    <text class="dg-name" x="562" y="178" text-anchor="middle">🧠 Lore</text>
+    <text class="dg-s" x="562" y="202" text-anchor="middle">memory · knowledge graph</text>
+    <text class="dg-s" x="562" y="220" text-anchor="middle">bi-temporal facts</text></g>
+  <g><rect class="dg-box dg-core" x="684" y="138" width="196" height="112" rx="11"/>
+    <text class="dg-name" x="782" y="178" text-anchor="middle">📝 FormBridge</text>
+    <text class="dg-s" x="782" y="202" text-anchor="middle">agent fills known fields,</text>
+    <text class="dg-s" x="782" y="220" text-anchor="middle">human completes the rest</text></g>
+
+  <!-- reactive loop: Lens → guardrails → Gate -->
+  <path class="dg-flow2" d="M122,250 C122,284 165,302 200,304" marker-end="url(#arr2)"/>
+  <path class="dg-flow2" d="M300,304 C326,302 342,288 342,254" marker-end="url(#arr2)"/>
+  <rect class="dg-box dg-loop" x="150" y="300" width="200" height="48" rx="10"/>
+  <text class="dg-name sm" x="250" y="320" text-anchor="middle">🚦 guardrails</text>
+  <text class="dg-s" x="250" y="338" text-anchor="middle">Lens metrics → tighten Gate policy</text>
+
+  <!-- AgentEval ↔ AgentLens (bidirectional) -->
+  <line class="dg-flow" x1="42" y1="252" x2="42" y2="398" marker-start="url(#arr)" marker-end="url(#arr)"/>
+  <text class="dg-dir" x="64" y="292">↓ sessions</text>
+  <text class="dg-dir" x="64" y="372">↑ evidence</text>
+  <rect class="dg-box" x="24" y="398" width="416" height="66" rx="10"/>
+  <text class="dg-name" x="232" y="424" text-anchor="middle">✅ AgentEval</text>
+  <text class="dg-s" x="232" y="444" text-anchor="middle">replays AgentLens sessions as regression tests</text>
+  <text class="dg-s" x="232" y="460" text-anchor="middle">emits results back as tamper-evident audit evidence</text>
+
+  <!-- shared-base layer -->
+  <rect class="dg-box dg-base" x="458" y="398" width="422" height="66" rx="10"/>
+  <text class="dg-name sm" x="669" y="421" text-anchor="middle">🧩 Shared base</text>
+  <text class="dg-s" x="669" y="441" text-anchor="middle">@agentkitai/auth · @agentkitai/pricing</text>
+  <text class="dg-s" x="669" y="457" text-anchor="middle">shared libraries used across the services</text>
+
+  <!-- operate band -->
+  <rect class="dg-foot" x="24" y="500" width="856" height="40" rx="9"/>
+  <text class="dg-foot-t" x="452" y="525" text-anchor="middle">🔧 agentkit-cli · 📦 agentkit-stack — deploy · run · verify · mint identities for the whole stack</text>
+</svg>
+</section>
+
+<section><h2>Core products</h2><div class="grid"><a class="card tier-core" href="agentlens.html">
+  <div class="card-top"><span class="emoji">🔍</span>
+    <span class="card-name">AgentLens</span></div>
+  <div class="card-tag">Open-source observability for AI agents — with a tamper-evident, hash-chained audit trail.</div>
+  <div class="card-meta"><span class="badge ">Observability + audit</span><span class="badge lang">TypeScript + Python SDK</span><span class="badge ver">v0.15.1</span></div>
+</a><a class="card tier-core" href="agentgate.html">
+  <div class="card-top"><span class="emoji">🛂</span>
+    <span class="card-name">AgentGate</span></div>
+  <div class="card-tag">Human-in-the-loop approval gateway with policy-based auto-approval, auto-denial, and multi-channel notifications.</div>
+  <div class="card-meta"><span class="badge ">Governance / approval</span><span class="badge lang">TypeScript</span><span class="badge ver">vcore 0.1.0</span></div>
+</a><a class="card tier-core" href="lore.html">
+  <div class="card-top"><span class="emoji">🧠</span>
+    <span class="card-name">Lore</span></div>
+  <div class="card-tag">Cross-agent semantic memory with knowledge graphs, fact extraction, and bi-temporal history.</div>
+  <div class="card-meta"><span class="badge ">Memory / knowledge</span><span class="badge lang">Python</span><span class="badge ver">v1.3.0</span></div>
+</a><a class="card tier-core" href="formbridge.html">
+  <div class="card-top"><span class="emoji">📝</span>
+    <span class="card-name">FormBridge</span></div>
+  <div class="card-tag">Mixed-mode agent↔human form submission — agents fill what they know, humans complete the rest.</div>
+  <div class="card-meta"><span class="badge ">Agent-human handoff</span><span class="badge lang">TypeScript</span><span class="badge ver">v0.3.0</span></div>
+</a><a class="card tier-core" href="agenteval.html">
+  <div class="card-top"><span class="emoji">✅</span>
+    <span class="card-name">AgentEval</span></div>
+  <div class="card-tag">Testing &amp; evaluation for AI agents: YAML suites, pluggable graders, statistical regression detection.</div>
+  <div class="card-meta"><span class="badge ">Testing / evaluation</span><span class="badge lang">Python</span><span class="badge ver">v0.7.0</span></div>
+</a></div></section>
+<section><h2>Supporting tooling</h2><div class="grid"><a class="card tier-support" href="agentkit-guardrails.html">
+  <div class="card-top"><span class="emoji">🚦</span>
+    <span class="card-name">agentkit-guardrails</span></div>
+  <div class="card-tag">Reactive policy automation: tightens AgentGate policies when AgentLens metrics breach thresholds.</div>
+  <div class="card-meta"><span class="badge ">Reactive policy loop</span><span class="badge lang">TypeScript</span><span class="badge ver">v1.0.0</span></div>
+</a><a class="card tier-support" href="agentkit-cli.html">
+  <div class="card-top"><span class="emoji">🔧</span>
+    <span class="card-name">agentkit-cli</span></div>
+  <div class="card-tag">Unified CLI to orchestrate the suite, with Ed25519 agent identity and audit-verified governance.</div>
+  <div class="card-meta"><span class="badge ">Orchestrator + identity</span><span class="badge lang">TypeScript</span><span class="badge ver">v0.1.1</span></div>
+</a><a class="card tier-support" href="agentkit-stack.html">
+  <div class="card-top"><span class="emoji">📦</span>
+    <span class="card-name">agentkit-stack</span></div>
+  <div class="card-tag">One docker compose up for the governance trio — AgentLens + AgentGate + Lore.</div>
+  <div class="card-meta"><span class="badge ">Deployment / orchestration</span><span class="badge lang">Docker Compose</span><span class="badge ver">infra</span></div>
+</a></div></section>
+
+<section><h2>What ties it together</h2>
+  <ol class="ties">
+    <li><b>Provenance is the product.</b> Hash-chained audit (Lens), OWASP-tagged decisions (Gate), signed evidence packs (CLI), JWT-VC receipts (FormBridge), tamper-evident eval evidence (Eval) — defensible records, not just logs.</li>
+    <li><b>Real integrations.</b> Eval↔Lens (sessions→tests, results→audit), Guardrails (Lens metrics→Gate policy), shared <code>@agentkitai/auth</code> + <code>@agentkitai/pricing</code> libraries, CLI-minted identities used across services.</li>
+    <li><b>MCP-native throughout.</b> Every core service is also an MCP server (~22 Lens + 40 Lore + 10 Gate + per-intake FormBridge tools) — an LLM agent can operate the control plane itself.</li>
+    <li><b>Tokenless, reproducible distribution.</b> Unified <code>@agentkitai/*</code> scope, 20 OIDC Trusted Publishers, MCP Registry entries current — supply-chain hygiene matching the compliance story.</li>
+  </ol>
+</section>
+
+<section class="oneliner"><b>In one line:</b> AgentKitAI is the governance, observability, memory, and evaluation plane you wrap around any agent so it's auditable, controllable, stateful, and testable — independent MIT-licensed services that each stand alone but compose into one self-hostable control plane.</section>
+</main>
+<footer>AgentKitAI · 8 products · MIT/ISC licensed · github.com/agentkitai</footer>
+</body></html>

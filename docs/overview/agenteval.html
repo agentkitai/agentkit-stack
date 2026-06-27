@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AgentEval — AgentKitAI</title><link rel="stylesheet" href="styles.css">
+</head><body>
+<header class="masthead"><a class="brand" href="index.html">⬡ <b>AgentKitAI</b></a>
+<span class="brand-sub">open-source control plane for AI agents</span></header>
+<nav class="topnav"><a href="index.html">Overview</a><a href="agentlens.html">🔍 AgentLens</a><a href="agentgate.html">🛂 AgentGate</a><a href="lore.html">🧠 Lore</a><a href="formbridge.html">📝 FormBridge</a><a href="agenteval.html" class="active">✅ AgentEval</a><a href="agentkit-guardrails.html">🚦 agentkit-guardrails</a><a href="agentkit-cli.html">🔧 agentkit-cli</a><a href="agentkit-stack.html">📦 agentkit-stack</a></nav>
+<main>
+<a class="back" href="index.html">← All products</a>
+<header class="phead tier-core">
+  <h1><span class="emoji-lg">✅</span> AgentEval</h1>
+  <p class="tag">Testing &amp; evaluation for AI agents: YAML suites, pluggable graders, statistical regression detection.</p>
+  <div class="card-meta"><span class="badge ">Core</span><span class="badge ">Testing / evaluation</span><span class="badge lang">Python</span><span class="badge ver">v0.7.0</span><span class="badge status">Active · alpha</span></div>
+  <div class="links"><a class="lnk" href="https://github.com/agentkitai/agenteval">GitHub ↗</a><a class="lnk" href="https://pypi.org/project/agentevalkit/">PyPI ↗</a></div>
+</header>
+<section><h2>Purpose</h2><p>Tests the non-deterministic. Enables declarative test-suite definition in YAML, grades agent outputs with 10+ pluggable graders, detects statistical regressions across runs using Welch&#x27;s t-test, and integrates with AgentLens to import production sessions as test cases and emit eval runs as tamper-evident audit evidence.</p></section>
+<section><h2>Architecture</h2><p>YAML suite files define cases (inputs, expected outputs, grading criteria). A loader reads them and a runner executes each case against a sync/async agent callable with timeout + retry. Results are graded by one of 10+ pluggable graders producing GradeResult objects; complete EvalRun objects persist to a SQLite ResultStore. A Coordinator can route cases to Redis-backed workers for distributed execution (with local fallback). Emitters send finished runs to AgentLens as hash-chained federation evidence. 20+ CLI commands orchestrate everything.</p></section>
+<section><h2>Key features</h2><ul class="features"><li>YAML declarative test suites (inputs, expected outputs, grading criteria)</li><li>10 built-in graders: exact, contains, regex, tool-check, llm-judge, custom, json_schema, semantic, latency, cost, trajectory</li><li>Statistical regression detection via Welch&#x27;s t-test; group comparison command</li><li>AgentLens integration both ways: import sessions as fixtures; emit runs as tamper-evident evidence</li><li>Distributed execution: Redis broker + coordinator, automatic local fallback</li><li>Cost + latency tracking per case, aggregated across suites</li><li>Framework adapters: LangChain, CrewAI, AutoGen</li><li>OpenTelemetry trace import → eval fixtures</li><li>GitHub Action for CI gating (min pass-rate, regression thresholds)</li><li>Badges, trend analysis, flaky-test detection, EU AI Act compliance checks</li></ul></section>
+<section><h2>Interfaces</h2><ul class="ifaces"><li>CLI: agenteval run / compare / import-agentlens / ci / baseline / worker / evidence / trends / verify / …</li><li>GitHub Action: agentkitai/agenteval@v1</li><li>Python SDK: EvalCase / EvalSuite / EvalRun / GradeResult, Grader protocol, runner.run_suite()</li><li>SQLite persistence (eval_runs, eval_results)</li><li>AgentLens HTTP: POST /api/internal/eval/run (service-token gated)</li></ul></section>
+<section><h2>How it fits the suite</h2><p>The testing/evaluation arm — closes the loop with AgentLens bidirectionally: production sessions become regression fixtures, and eval results flow back into the tamper-evident audit trail. Complements AgentGate and AgentLens for a build → observe → evaluate cycle.</p></section>
+<section><h2>Notable engineering</h2><p>Hash-chained, service-token-gated eval evidence emitted to AgentLens (a full test-case ↔ production-session audit trail); Welch&#x27;s t-test for statistically sound regression detection rather than naive pass/fail; lazy-loaded grader registry; pure-Python fallback when scipy is unavailable.</p></section>
+<section><h2>Stack</h2><p class="stack">Python 3.9+ · Click · PyYAML · SQLite · httpx · jsonschema · sentence-transformers · scipy · redis</p></section>
+<nav class="prevnext"><a href="formbridge.html">← 📝 FormBridge</a><a href="agentkit-guardrails.html">🚦 agentkit-guardrails →</a></nav>
+</main>
+<footer>AgentKitAI · 8 products · MIT/ISC licensed · github.com/agentkitai</footer>
+</body></html>

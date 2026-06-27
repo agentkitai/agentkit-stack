@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AgentGate — AgentKitAI</title><link rel="stylesheet" href="styles.css">
+</head><body>
+<header class="masthead"><a class="brand" href="index.html">⬡ <b>AgentKitAI</b></a>
+<span class="brand-sub">open-source control plane for AI agents</span></header>
+<nav class="topnav"><a href="index.html">Overview</a><a href="agentlens.html">🔍 AgentLens</a><a href="agentgate.html" class="active">🛂 AgentGate</a><a href="lore.html">🧠 Lore</a><a href="formbridge.html">📝 FormBridge</a><a href="agenteval.html">✅ AgentEval</a><a href="agentkit-guardrails.html">🚦 agentkit-guardrails</a><a href="agentkit-cli.html">🔧 agentkit-cli</a><a href="agentkit-stack.html">📦 agentkit-stack</a></nav>
+<main>
+<a class="back" href="index.html">← All products</a>
+<header class="phead tier-core">
+  <h1><span class="emoji-lg">🛂</span> AgentGate</h1>
+  <p class="tag">Human-in-the-loop approval gateway with policy-based auto-approval, auto-denial, and multi-channel notifications.</p>
+  <div class="card-meta"><span class="badge ">Core</span><span class="badge ">Governance / approval</span><span class="badge lang">TypeScript</span><span class="badge ver">vcore 0.1.0</span><span class="badge status">Active · pre-1.0</span></div>
+  <div class="links"><a class="lnk" href="https://github.com/agentkitai/agentgate">GitHub ↗</a><a class="lnk" href="https://www.npmjs.com/package/@agentkitai/agentgate-server">npm ↗</a></div>
+</header>
+<section><h2>Purpose</h2><p>Keeps humans in control of what AI agents can do by intercepting requests and evaluating them against policies that auto-approve safe actions, auto-deny dangerous ones, and route ambiguous requests to human approvers via web dashboard, Slack, Discord, or email. Provides complete audit trails for compliance and tags every decision with an OWASP LLM Top-10 risk classification.</p></section>
+<section><h2>Architecture</h2><p>Agents submit approval requests to an authenticated Hono HTTP API. A policy engine evaluates each request against prioritized, scope-gated rules (per-agent, per-tool, or global) using comparison operators and emits one of four decisions. Real-time HMAC-signed webhooks deliver notifications with exponential-backoff retry. Humans decide via React dashboard, Slack DM, or Discord channel — or a one-click decision link. SQLite (dev) / PostgreSQL (prod) stores requests, policies, keys, audit logs; Redis handles sliding-window rate limiting and queues. Background scanners handle overrides, escalation, and webhook retries with graceful shutdown.</p></section>
+<section><h2>Key features</h2><ul class="features"><li>Policy engine: rule matching on action/params/context with $lt/$gt/$lte/$gte/$in/$regex operators</li><li>Four decision types: auto_approve, auto_deny, route_to_human, route_to_agent — with per-rule approver + channel</li><li>Multi-channel approvals: React dashboard, Slack DM bot, Discord channel bot, email (SMTP)</li><li>One-click decision links — passwordless approve/deny from the notification itself</li><li>OWASP LLM Top-10 risk classification on every decision (compliance evidence)</li><li>Full audit trail with actor namespaces (dashboard:/slack:/discord:/mcp:/policy:/api:/system)</li><li>Agent identity verification via token signing (SPIFFE support)</li><li>Per-agent budget / spend limits with alerts</li><li>Override system for per-agent escalation gates (require_approval / deny)</li><li>HMAC-SHA256 signed webhooks with event filtering + exponential-backoff retry</li><li>API keys with fine-grained scopes + per-key sliding-window rate limiting</li><li>Hardened: SSRF protection, ReDoS defense (safe-regex2), CORS, security headers, graceful shutdown</li></ul></section>
+<section><h2>Interfaces</h2><ul class="ifaces"><li>HTTP REST API (POST /api/requests, /api/requests/:id/decide, /api/overrides, …)</li><li>10 MCP tools: agentgate_request/get/list/decide, policy CRUD, audit queries</li><li>CLI: agentgate config / request / status / list / approve / deny / override</li><li>TypeScript SDK: AgentGateClient</li><li>React web dashboard (requests, policies, keys, webhooks, audit search)</li><li>Slack bot · Discord bot · outbound webhooks</li></ul></section>
+<section><h2>How it fits the suite</h2><p>The governance and approval layer of the control plane. Logs every decision to AgentLens; receives reactive policy overrides from agentkit-guardrails when AgentLens metrics breach; consumes the shared @agentkitai/auth library. Drives human approvals through Slack/Discord for teams.</p></section>
+<section><h2>Notable engineering</h2><p>Operator-based policy matching with scope gating, passwordless decision-token links, per-agent budget enforcement, and an OWASP-LLM risk tag on every decision — designed so the approval record is itself compliance evidence. Docker secrets via the _FILE env convention.</p></section>
+<section><h2>Stack</h2><p class="stack">TypeScript 5.7 · Hono · Drizzle ORM · SQLite/PostgreSQL · Redis · React + Tailwind · @slack/bolt · discord.js · jose (JWT) · Vitest</p></section>
+<nav class="prevnext"><a href="agentlens.html">← 🔍 AgentLens</a><a href="lore.html">🧠 Lore →</a></nav>
+</main>
+<footer>AgentKitAI · 8 products · MIT/ISC licensed · github.com/agentkitai</footer>
+</body></html>

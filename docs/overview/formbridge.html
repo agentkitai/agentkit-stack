@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FormBridge — AgentKitAI</title><link rel="stylesheet" href="styles.css">
+</head><body>
+<header class="masthead"><a class="brand" href="index.html">⬡ <b>AgentKitAI</b></a>
+<span class="brand-sub">open-source control plane for AI agents</span></header>
+<nav class="topnav"><a href="index.html">Overview</a><a href="agentlens.html">🔍 AgentLens</a><a href="agentgate.html">🛂 AgentGate</a><a href="lore.html">🧠 Lore</a><a href="formbridge.html" class="active">📝 FormBridge</a><a href="agenteval.html">✅ AgentEval</a><a href="agentkit-guardrails.html">🚦 agentkit-guardrails</a><a href="agentkit-cli.html">🔧 agentkit-cli</a><a href="agentkit-stack.html">📦 agentkit-stack</a></nav>
+<main>
+<a class="back" href="index.html">← All products</a>
+<header class="phead tier-core">
+  <h1><span class="emoji-lg">📝</span> FormBridge</h1>
+  <p class="tag">Mixed-mode agent↔human form submission — agents fill what they know, humans complete the rest.</p>
+  <div class="card-meta"><span class="badge ">Core</span><span class="badge ">Agent-human handoff</span><span class="badge lang">TypeScript</span><span class="badge ver">v0.3.0</span><span class="badge status">Active</span></div>
+  <div class="links"><a class="lnk" href="https://github.com/agentkitai/formbridge">GitHub ↗</a><a class="lnk" href="https://www.npmjs.com/package/@agentkitai/formbridge-create">npm ↗</a></div>
+</header>
+<section><h2>Purpose</h2><p>AI agents can gather most of a form&#x27;s data, but some fields need a human — signatures, file uploads, identity verification, subjective judgment. FormBridge handles the handoff: the agent fills what it knows and hands off a secure resume URL; the human opens a pre-filled form with attribution badges and completes the rest, with full field-level attribution and approval workflows.</p></section>
+<section><h2>Architecture</h2><p>Built on Hono. The agent POSTs a submission and fills known fields; FormBridge returns a rotating resume token + handoff URL. A submission state machine (draft → in_progress → submitted → finalized, plus review/approval/upload branches) governs lifecycle; resume tokens rotate on every state change. A triple-write pattern records each event to the submission array, an event emitter (webhook fan-out), and an append-only event store. Each registered intake auto-generates MCP tools. On finalize, an optional signed provenance receipt is issued.</p></section>
+<section><h2>Key features</h2><ul class="features"><li>Field-level attribution — tracks who filled each field (agent / human / system) and when</li><li>Secure handoff: rotating resume tokens, pre-filled forms with &#x27;filled by agent&#x27; badges</li><li>Submission state machine with validation → optional approval gates → webhook delivery</li><li>Auto-generated MCP tools per intake: {intake}__create / set / validate / submit (+ upload)</li><li>React form-renderer: JSON Schema → typed field components; resume + multi-step wizard flows</li><li>Schema normalizer: Zod / JSON Schema / OpenAPI → one unified IntakeSchema IR</li><li>Ready-made templates: vendor onboarding, IT access, customer intake, expense, bug report</li><li>HMAC-signed webhook delivery with signing/verification/retry</li><li>JWT-VC signed provenance receipts (EdDSA) at finalize — PII attested by hash, not embedded</li><li>/.well-known/jwks.json + receipt verify endpoints</li><li>Admin dashboard SPA (intakes, submissions, approvals, analytics, webhooks)</li><li>~1,427 tests across the monorepo</li></ul></section>
+<section><h2>Interfaces</h2><ul class="ifaces"><li>HTTP API: POST/GET/PATCH /intake/:id/submissions, /submissions/:id/handoff, /resume/:token, /receipts/verify</li><li>Per-intake MCP tools (auto-generated), Stdio + SSE transports</li><li>React library: @agentkitai/formbridge-form-renderer (FormBridgeForm, ResumeFormPage, WizardForm)</li><li>Scaffolding CLI: npx @agentkitai/formbridge-create</li><li>Templates + schema-normalizer packages</li><li>/.well-known/jwks.json for receipt verification</li></ul></section>
+<section><h2>How it fits the suite</h2><p>The human-input arm of the control plane — invoked when an agent hits a field only a person can fill. Its signed provenance receipts mirror the suite&#x27;s tamper-evident, compliance-first posture; webhook delivery routes finished submissions into downstream systems.</p></section>
+<section><h2>Notable engineering</h2><p>The triple-write event pattern, rotating resume tokens, and field-level attribution make every submission an auditable record of exactly who supplied what. JWT-VC receipts (EdDSA, JWKS-published) attest PII by content hash rather than embedding it — provenance without leaking data.</p></section>
+<section><h2>Stack</h2><p class="stack">TypeScript 5.9 · Hono v4 + @hono/node-server · @modelcontextprotocol/sdk · React (form-renderer + admin) · jose (EdDSA receipts) · Vitest · npm workspaces (6 packages)</p></section>
+<nav class="prevnext"><a href="lore.html">← 🧠 Lore</a><a href="agenteval.html">✅ AgentEval →</a></nav>
+</main>
+<footer>AgentKitAI · 8 products · MIT/ISC licensed · github.com/agentkitai</footer>
+</body></html>
