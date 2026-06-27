@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>agentkit-stack — AgentKitAI</title><link rel="stylesheet" href="styles.css">
+</head><body>
+<header class="masthead"><a class="brand" href="index.html">⬡ <b>AgentKitAI</b></a>
+<span class="brand-sub">open-source control plane for AI agents</span></header>
+<nav class="topnav"><a href="index.html">Overview</a><a href="agentlens.html">🔍 AgentLens</a><a href="agentgate.html">🛂 AgentGate</a><a href="lore.html">🧠 Lore</a><a href="formbridge.html">📝 FormBridge</a><a href="agenteval.html">✅ AgentEval</a><a href="agentkit-guardrails.html">🚦 agentkit-guardrails</a><a href="agentkit-cli.html">🔧 agentkit-cli</a><a href="agentkit-stack.html" class="active">📦 agentkit-stack</a></nav>
+<main>
+<a class="back" href="index.html">← All products</a>
+<header class="phead tier-support">
+  <h1><span class="emoji-lg">📦</span> agentkit-stack</h1>
+  <p class="tag">One docker compose up for the governance trio — AgentLens + AgentGate + Lore.</p>
+  <div class="card-meta"><span class="badge ">Tooling</span><span class="badge ">Deployment / orchestration</span><span class="badge lang">Docker Compose</span><span class="badge ver">infra</span><span class="badge status">Active · infra</span></div>
+  <div class="links"><a class="lnk" href="https://github.com/agentkitai/agentkit-stack">GitHub ↗</a></div>
+</header>
+<section><h2>Purpose</h2><p>Solves the operational complexity of deploying the control-plane suite. Provides zero-setup deployment via Docker Compose with environment-based config, cloud dev-container support, and composable service profiles, so users can run observability, governance, and semantic memory together with automated health checking and inter-service networking.</p></section>
+<section><h2>Architecture</h2><p>A single docker-compose.yml defines four containers on a shared bridge network: AgentLens (Node, 3000), AgentGate (Node, 3002), Lore (Python, 8765), and a pgvector Postgres database (5432). Compose profiles select which services start; .env supplies secrets and URLs; health-check endpoints gate dependent service startup so there are no race conditions.</p></section>
+<section><h2>Key features</h2><ul class="features"><li>Composable profiles: minimal (observe + memory), governance (+ approval gateway), full</li><li>Zero local setup: single docker compose up -d</li><li>GitHub Codespaces one-click launch with embedded dev container</li><li>Environment-driven secrets (.env, gitignored)</li><li>Health-gated startup (e.g. AgentLens waits for Lore)</li><li>Pre-configured inter-service networking + DNS</li><li>Build from local source or pull from GHCR</li><li>CI smoke test validates the governance stack boots healthy</li><li>Volume persistence for AgentLens / AgentGate / Lore</li></ul></section>
+<section><h2>Interfaces</h2><ul class="ifaces"><li>docker compose up/down/logs --profile {minimal|governance|full}</li><li>Health: :3000/api/stats (Lens), :3002/health (Gate), :8765/health (Lore)</li><li>.env configuration</li><li>GitHub Codespaces / Dev Containers</li><li>Images: ghcr.io/agentkitai/{agentlens,agentgate,lore}</li></ul></section>
+<section><h2>How it fits the suite</h2><p>The operational center: run it once, then point the agents in your systems at its endpoints for observability, memory, and governance. Pairs with agentkit-cli (which wraps these same Compose operations behind governance verbs).</p></section>
+<section><h2>Notable engineering</h2><p>Composable profiles decouple governance from minimal deployments without config changes; health checks prevent startup races; secrets live in .env (out of git) with safe local-dev defaults; a CI smoke test proves the full governance profile boots healthy within 240s.</p></section>
+<section><h2>Stack</h2><p class="stack">Docker Compose · pgvector/pgvector:pg16 · shell · GitHub Actions · VS Code Dev Containers</p></section>
+<nav class="prevnext"><a href="agentkit-cli.html">← 🔧 agentkit-cli</a><span></span></nav>
+</main>
+<footer>AgentKitAI · 8 products · MIT/ISC licensed · github.com/agentkitai</footer>
+</body></html>

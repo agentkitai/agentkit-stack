@@ -1,0 +1,45 @@
+name: Deploy overview site to GitHub Pages
+
+# Publishes docs/overview/ (the AgentKitAI suite overview) to GitHub Pages.
+# The site is regenerated from gen_site.py first, so the deployed pages can
+# never drift from the generator even if someone forgets to re-run it locally.
+#
+# One-time owner setup: repo Settings → Pages → Source = "GitHub Actions".
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/overview/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One concurrent deploy; don't cancel an in-flight publish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Regenerate site from gen_site.py
+        run: python3 docs/overview/gen_site.py
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs/overview
+
+      - id: deployment
+        uses: actions/deploy-pages@v4

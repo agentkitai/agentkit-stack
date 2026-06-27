@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AgentLens — AgentKitAI</title><link rel="stylesheet" href="styles.css">
+</head><body>
+<header class="masthead"><a class="brand" href="index.html">⬡ <b>AgentKitAI</b></a>
+<span class="brand-sub">open-source control plane for AI agents</span></header>
+<nav class="topnav"><a href="index.html">Overview</a><a href="agentlens.html" class="active">🔍 AgentLens</a><a href="agentgate.html">🛂 AgentGate</a><a href="lore.html">🧠 Lore</a><a href="formbridge.html">📝 FormBridge</a><a href="agenteval.html">✅ AgentEval</a><a href="agentkit-guardrails.html">🚦 agentkit-guardrails</a><a href="agentkit-cli.html">🔧 agentkit-cli</a><a href="agentkit-stack.html">📦 agentkit-stack</a></nav>
+<main>
+<a class="back" href="index.html">← All products</a>
+<header class="phead tier-core">
+  <h1><span class="emoji-lg">🔍</span> AgentLens</h1>
+  <p class="tag">Open-source observability for AI agents — with a tamper-evident, hash-chained audit trail.</p>
+  <div class="card-meta"><span class="badge ">Core</span><span class="badge ">Observability + audit</span><span class="badge lang">TypeScript + Python SDK</span><span class="badge ver">v0.15.1</span><span class="badge status">Flagship · most mature</span></div>
+  <div class="links"><a class="lnk" href="https://github.com/agentkitai/agentlens">GitHub ↗</a><a class="lnk" href="https://www.npmjs.com/package/@agentkitai/agentlens-server">npm ↗</a><a class="lnk" href="https://pypi.org/project/agentlensai/">PyPI ↗</a></div>
+</header>
+<section><h2>Purpose</h2><p>A flight recorder for AI agents: captures every LLM call, tool invocation, approval decision, and error, then exposes them via a queryable API and real-time dashboard. Its differentiator is that every event is SHA-256 hash-chained to the previous one — alter, delete, or reorder a single record after the fact and verification fails, pointing at the exact event that broke. Purpose-built for EU AI Act Article 12 record-keeping and the emerging IETF Agent Audit Trail work.</p></section>
+<section><h2>Architecture</h2><p>A Node/Hono server + React dashboard ingest events through five entry points and write them to an append-only, per-session hash-chained store. SQLite by default (zero config); Postgres + Redis for scale. OTel GenAI spans are mapped into the AgentLens model (llm_call/llm_response/tool_call) and hash-chained like any other event; cost is reconstructed from per-model pricing when the source reports only tokens. Auditors export a signed JSON snapshot from GET /api/audit/verify/export; the server verdict can be independently re-walked client-side.</p></section>
+<section><h2>Key features</h2><ul class="features"><li>Tamper-evident audit: append-only, SHA-256 hash-chained per session; GET /api/audit/verify + signed /verify/export</li><li>Five ways to integrate, zero lock-in: OpenTelemetry GenAI (no SDK), 1-line Python auto-instrumentation (9 providers), OpenClaw plugin, TS/Python SDK, MCP server</li><li>22 MCP tools spanning observability, analytics, and operations</li><li>Real-time dashboard: session timelines, event explorer, LLM analytics, cost tracking, alerting</li><li>Cost tracking per session / agent / model with spike alerts; cost reconstructed even for OTel-only agents</li><li>Billing-grade per-agent spend tracking (A+B+C)</li><li>5-dimension health scores with trend tracking</li><li>Session replay — step through any past session with full context</li><li>A/B benchmarking with Welch&#x27;s t-test + chi-squared</li><li>Complexity-aware model-recommendation cost optimizer with projected savings</li><li>Automated guardrails with dry-run mode</li><li>Framework plugins (LangChain, CrewAI, AutoGen, Semantic Kernel) — auto-detect, fail-safe, non-blocking</li><li>Multi-tenant isolation with per-tenant data scoping and API-key binding</li></ul></section>
+<section><h2>Interfaces</h2><ul class="ifaces"><li>HTTP API: /api/audit/verify, /api/audit/verify/export, /api/stats, /api/keys, OTLP /v1/traces</li><li>22 MCP tools (npx @agentkitai/agentlens-mcp)</li><li>Python SDK: agentlensai (AgentLensClient, agentlensai.init())</li><li>TypeScript SDK: @agentkitai/agentlens-sdk (AgentLensClient)</li><li>Real-time React web dashboard</li><li>Docker image: ghcr.io/agentkitai/agentlens (port 3400)</li></ul></section>
+<section><h2>How it fits the suite</h2><p>The observability hub of the suite. AgentGate logs its approval decisions here; AgentEval imports production sessions from here as test fixtures and emits eval results back as tamper-evident evidence; agentkit-guardrails watches its metrics to drive reactive policy. Shares the @agentkitai/auth and @agentkitai/pricing libraries with the rest of the suite.</p></section>
+<section><h2>Notable engineering</h2><p>The hash-chain is the whole thesis: an agent&#x27;s behavior becomes not just logged but cryptographically defensible. Cost is reconstructed from model pricing so even SDK-less OTel agents get full cost analytics. Deterministic, fail-safe, non-blocking capture with optional PII redaction.</p></section>
+<section><h2>Stack</h2><p class="stack">Node.js / Hono · React + Vite dashboard · SQLite (default) → PostgreSQL + Redis · OpenTelemetry ingest · Python SDK (9 provider integrations)</p></section>
+<nav class="prevnext"><span></span><a href="agentgate.html">🛂 AgentGate →</a></nav>
+</main>
+<footer>AgentKitAI · 8 products · MIT/ISC licensed · github.com/agentkitai</footer>
+</body></html>

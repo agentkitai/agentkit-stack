@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>agentkit-cli — AgentKitAI</title><link rel="stylesheet" href="styles.css">
+</head><body>
+<header class="masthead"><a class="brand" href="index.html">⬡ <b>AgentKitAI</b></a>
+<span class="brand-sub">open-source control plane for AI agents</span></header>
+<nav class="topnav"><a href="index.html">Overview</a><a href="agentlens.html">🔍 AgentLens</a><a href="agentgate.html">🛂 AgentGate</a><a href="lore.html">🧠 Lore</a><a href="formbridge.html">📝 FormBridge</a><a href="agenteval.html">✅ AgentEval</a><a href="agentkit-guardrails.html">🚦 agentkit-guardrails</a><a href="agentkit-cli.html" class="active">🔧 agentkit-cli</a><a href="agentkit-stack.html">📦 agentkit-stack</a></nav>
+<main>
+<a class="back" href="index.html">← All products</a>
+<header class="phead tier-support">
+  <h1><span class="emoji-lg">🔧</span> agentkit-cli</h1>
+  <p class="tag">Unified CLI to orchestrate the suite, with Ed25519 agent identity and audit-verified governance.</p>
+  <div class="card-meta"><span class="badge ">Tooling</span><span class="badge ">Orchestrator + identity</span><span class="badge lang">TypeScript</span><span class="badge ver">v0.1.1</span><span class="badge status">Active</span></div>
+  <div class="links"><a class="lnk" href="https://github.com/agentkitai/agentkit-cli">GitHub ↗</a><a class="lnk" href="https://www.npmjs.com/package/@agentkitai/agentkit-cli">npm ↗</a></div>
+</header>
+<section><h2>Purpose</h2><p>A single command-line interface to initialize, deploy, monitor, and manage the suite of agent microservices running in Docker — plus agent identity management, audit hash-chain verification, compliance evidence export, and governance profiles that enforce secure, auditable operations across the stack.</p></section>
+<section><h2>Architecture</h2><p>Three layers: (1) a Commander-based command layer (init/status/up/down/logs/doctor/identity/audit/evidence/demo/mcp/serve) that reads config and orchestrates Docker or service APIs; (2) an MCP layer with a stdio server exposing CLI verbs as tools and an HTTP server bound to a specific agent identity for stack-scoped queries; (3) a support layer with config auto-discovery (walks up 10 dirs for agentkit.config.yaml), a service registry with health checks, project generators, and identity storage. Identity ops are appended to an audit.log for tamper-evidence.</p></section>
+<section><h2>Key features</h2><ul class="features"><li>init — interactive/non-interactive scaffolding; default or governed-agent (compliance-first) template</li><li>up / down / logs — thin Docker Compose wrappers, governance-profile default, fresh secret generation</li><li>status — service health monitoring with --watch live mode</li><li>doctor — diagnostics (config, Docker daemon, container health, connectivity)</li><li>identity mint/inspect/rotate — Ed25519 agent identity lifecycle in ~/.agentkit</li><li>audit verify — independent client-side hash-chain re-walk of a running stack</li><li>evidence export — signed compliance evidence pack</li><li>demo — first-run seed data + guided tour</li><li>mcp (stdio) — CLI verbs as MCP tools</li><li>serve (HTTP) — identity-scoped MCP server; every result stamped with servedBy {id, fingerprint}</li></ul></section>
+<section><h2>Interfaces</h2><ul class="ifaces"><li>CLI: agentkit init|status|up|down|logs|doctor|identity|audit|evidence|demo|mcp|serve</li><li>MCP (stdio): status, doctor, audit_verify, identity_mint/inspect/rotate, init</li><li>MCP (HTTP /mcp): identity_whoami, status, audit_verify, evidence_export</li><li>Config: agentkit.config.yaml (projectName, language, template, services.*)</li><li>Identity store: ~/.agentkit/identities/*.json + *.key (0600) + audit.log (JSONL)</li><li>Published: npm @agentkitai/agentkit-cli</li></ul></section>
+<section><h2>How it fits the suite</h2><p>The central orchestrator — manages the lifecycle of all five core services and mints the Ed25519 identities used across them. Exposes stack operations to LLM agents via MCP so an agent can operate the control plane itself; governance-by-default cascades audit verification and evidence export through the whole stack.</p></section>
+<section><h2>Notable engineering</h2><p>Identity-scoped security: every MCP result is stamped with servedBy {id, fingerprint}. Ed25519 keys stored 0600 outside repos, never printed. audit verify does an independent client-side cross-check of prevHash linkage — integrity beyond the server&#x27;s own verdict. up/down/logs are deliberately thin Compose wrappers (no re-implementation).</p></section>
+<section><h2>Stack</h2><p class="stack">TypeScript (CommonJS) · Commander.js · Zod · YAML · @modelcontextprotocol/sdk · Node crypto (ed25519) · Docker Compose</p></section>
+<nav class="prevnext"><a href="agentkit-guardrails.html">← 🚦 agentkit-guardrails</a><a href="agentkit-stack.html">📦 agentkit-stack →</a></nav>
+</main>
+<footer>AgentKitAI · 8 products · MIT/ISC licensed · github.com/agentkitai</footer>
+</body></html>

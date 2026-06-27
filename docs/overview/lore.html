@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lore — AgentKitAI</title><link rel="stylesheet" href="styles.css">
+</head><body>
+<header class="masthead"><a class="brand" href="index.html">⬡ <b>AgentKitAI</b></a>
+<span class="brand-sub">open-source control plane for AI agents</span></header>
+<nav class="topnav"><a href="index.html">Overview</a><a href="agentlens.html">🔍 AgentLens</a><a href="agentgate.html">🛂 AgentGate</a><a href="lore.html" class="active">🧠 Lore</a><a href="formbridge.html">📝 FormBridge</a><a href="agenteval.html">✅ AgentEval</a><a href="agentkit-guardrails.html">🚦 agentkit-guardrails</a><a href="agentkit-cli.html">🔧 agentkit-cli</a><a href="agentkit-stack.html">📦 agentkit-stack</a></nav>
+<main>
+<a class="back" href="index.html">← All products</a>
+<header class="phead tier-core">
+  <h1><span class="emoji-lg">🧠</span> Lore</h1>
+  <p class="tag">Cross-agent semantic memory with knowledge graphs, fact extraction, and bi-temporal history.</p>
+  <div class="card-meta"><span class="badge ">Core</span><span class="badge ">Memory / knowledge</span><span class="badge lang">Python</span><span class="badge ver">v1.3.0</span><span class="badge status">Active · beta</span></div>
+  <div class="links"><a class="lnk" href="https://github.com/agentkitai/lore">GitHub ↗</a><a class="lnk" href="https://www.npmjs.com/package/lore-sdk">npm ↗</a><a class="lnk" href="https://pypi.org/project/lore-sdk/">PyPI ↗</a></div>
+</header>
+<section><h2>Purpose</h2><p>Solves the statelessness problem of AI agents by providing a persistent memory layer that stores, connects, and retrieves knowledge across any agent without code changes. Hooks intercept agent activity so agents automatically remember lessons, decisions, and patterns; graph traversal surfaces connected information that vector search alone would miss; auto-snapshots give session continuity.</p></section>
+<section><h2>Architecture</h2><p>Local-first by default with an optional remote FastAPI backend. A pluggable MemoryStore protocol backs either SQLite + sqlite-vec (in-process) or PostgreSQL + pgvector (remote). A hook system (UserPromptSubmit / PostToolUse / SessionEnd) drives auto-retrieval and a background auto-capture pipeline — agents never import Lore. A knowledge-graph layer auto-extracts entities, relationships, and facts; retrieval blends semantic (embeddings), full-text (FTS/tsvector), and graph traversal. A session accumulator writes fire-and-forget snapshots that never block the caller.</p></section>
+<section><h2>Key features</h2><ul class="features"><li>Universal memory ops: remember, recall, forget, list, stats, upvote/downvote</li><li>Knowledge graph: auto-extracted entities/relationships — graph_query, entity_map, related, conflicts, list_facts</li><li>Interactive D3 force-directed graph UI at /ui/ with entity panels + topic clusters</li><li>Session continuity: auto-snapshots + auto-inject via hooks, zero agent cooperation</li><li>Bi-temporal facts: supersession chains, facts_at_time queries, timeline drill-down</li><li>Scope isolation: project-scoped vs global memories; cross-project search via scope=&#x27;all&#x27;</li><li>Multi-agent hooks: Claude Code, Cursor, Codex, OpenClaw — auto-retrieve + auto-capture</li><li>Risk-scored graph review: pending connection approval with computed risk scores + audit</li><li>Adaptive retrieval profiles (coding, incident-response, research)</li><li>Policy-based retention, cron snapshot schedules, restore drills, compliance dashboard</li><li>Multi-tenant workspaces with RBAC, scoped keys, SLO dashboard + breach alerts</li><li>Plugin SDK (entry_points, 5 lifecycle hooks, hot-reload) + automatic PII redaction</li></ul></section>
+<section><h2>Interfaces</h2><ul class="ifaces"><li>40+ MCP tools (remember/recall/graph_query/extract_facts/timeline/snapshot/…)</li><li>25+ REST endpoints under /v1/* (memories, search, retrieve, graph, workspaces, SLO, …)</li><li>CLI: lore with 20+ subcommands (remember, recall, graph, facts, serve, mcp, ui, workspace, …)</li><li>Web UI at /ui/ (D3 graph, entity panels, topic clusters, search)</li><li>Python SDK: Lore (async, local-first or remote)</li><li>Published: PyPI/npm lore-sdk · ghcr.io/agentkitai/lore</li></ul></section>
+<section><h2>How it fits the suite</h2><p>The persistent memory layer of the suite. Integrates with every major coding agent via hooks (auto-retrieve before prompts, auto-capture after) and via its MCP server for explicit access. Multi-tenant workspaces isolate team memories; global scopes share cross-project learnings.</p></section>
+<section><h2>Notable engineering</h2><p>Bi-temporal facts with explicit supersession chains (history without deletion), scope-based isolation preventing cross-project contamination, risk-scored graph connections gating when relationships are exposed, automatic PII redaction, and hook-based invisibility — agents never import Lore.</p></section>
+<section><h2>Stack</h2><p class="stack">Python 3.10+ · FastAPI / Uvicorn / Pydantic · PostgreSQL + pgvector (remote) or SQLite + sqlite-vec (local) · ONNX MiniLM embeddings · ULID · MCP · optional LiteLLM enrichment</p></section>
+<nav class="prevnext"><a href="agentgate.html">← 🛂 AgentGate</a><a href="formbridge.html">📝 FormBridge →</a></nav>
+</main>
+<footer>AgentKitAI · 8 products · MIT/ISC licensed · github.com/agentkitai</footer>
+</body></html>
