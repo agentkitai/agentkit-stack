@@ -93,6 +93,10 @@ services:
       - "8765:8765"
     environment:
       - DATABASE_URL=postgresql://lore:lore@lore-db:5432/lore
+      # Seeds Lore's root API key on first boot (when the DB is empty) so the
+      # stack is usable without a manual POST /v1/org/init. MUST be the same
+      # value AgentLens uses to call Lore (shared .env var).
+      - LORE_API_KEY=${LORE_API_KEY:?set LORE_API_KEY in .env (copy from .env.example)}
     volumes:
       - lore-data:/app/data
     networks:
