@@ -21,7 +21,6 @@ services:
       - JWT_SECRET=${JWT_SECRET:?set JWT_SECRET in .env (copy from .env.example)}
       - AGENTGATE_URL=http://agentgate:3002
       - LORE_ENABLED=true
-      - LORE_MODE=remote
       - LORE_API_URL=http://lore:8765
       - LORE_API_KEY=${LORE_API_KEY:?set LORE_API_KEY in .env (copy from .env.example)}
     volumes:
