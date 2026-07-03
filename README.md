@@ -31,7 +31,7 @@ cp .env.example .env   # then edit .env and set real secrets
 docker compose up -d
 ```
 
-All four services pull pinned images from GHCR (ghcr.io/agentkitai). Secrets are read from
+The three AgentKit services pull `:latest` images from GHCR (ghcr.io/agentkitai); the Lore DB uses pgvector/pgvector:pg16 from Docker Hub. Secrets are read from
 `.env` (gitignored); `docker compose up` will refuse to start until the
 required keys in `.env` are set.
 
@@ -81,7 +81,7 @@ curl http://localhost:8765/health                 # Lore
 
 ## Rebuild from Source
 
-By default every service pulls a pinned image from GHCR. To build any of
+By default every AgentKit service pulls its `:latest` image from GHCR. To build any of
 them from a local checkout instead, uncomment that service's `build:` lines in
 `docker-compose.yml` (each expects the sibling repo checked out alongside this
 one), then:
