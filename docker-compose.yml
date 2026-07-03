@@ -21,6 +21,7 @@ services:
       - JWT_SECRET=${JWT_SECRET:?set JWT_SECRET in .env (copy from .env.example)}
       - AGENTGATE_URL=http://agentgate:3002
       - LORE_ENABLED=true
+      - LORE_MODE=remote
       - LORE_API_URL=http://lore:8765
       - LORE_API_KEY=${LORE_API_KEY:?set LORE_API_KEY in .env (copy from .env.example)}
     volumes:
@@ -96,6 +97,10 @@ services:
       # stack is usable without a manual POST /v1/org/init. MUST be the same
       # value AgentLens uses to call Lore (shared .env var).
       - LORE_API_KEY=${LORE_API_KEY:?set LORE_API_KEY in .env (copy from .env.example)}
+      # spaCy model for graph entity extraction. Default en_core_web_trf
+      # (transformer NER, best quality — needs ~1.5GB RAM, see limit below).
+      # Dial down to en_core_web_lg or en_core_web_sm for a smaller footprint.
+      - LORE_GRAPH_SPACY_MODEL=${LORE_GRAPH_SPACY_MODEL:-en_core_web_trf}
     volumes:
       - lore-data:/app/data
     networks:
@@ -113,7 +118,9 @@ services:
     deploy:
       resources:
         limits:
-          memory: 256M
+          # transformer NER (en_core_web_trf) loads torch + RoBERTa (~1.5GB).
+          # Lower to 512M if LORE_GRAPH_SPACY_MODEL is set to en_core_web_sm/lg.
+          memory: 2G
 
   lore-db:
     image: pgvector/pgvector:pg16
