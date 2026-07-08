@@ -36,7 +36,7 @@ jobs:
       - name: Regenerate site from gen_site.py
         run: python3 docs/overview/gen_site.py
 
-      - uses: actions/configure-pages@v5
+      - uses: actions/configure-pages@v6
       - uses: actions/upload-pages-artifact@v5
         with:
           path: docs/overview
